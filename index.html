@@ -22,6 +22,17 @@
       text-align: center;
     }
 
+    .logo {
+      font-size: 2.5em;
+      font-weight: bold;
+      background: linear-gradient(45deg, #ff0000, #800000);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-family: 'Impact', sans-serif;
+    }
+
     nav {
       display: flex;
       justify-content: center;
@@ -101,11 +112,18 @@
     .buy-button:hover {
       background-color: #e60000;
     }
+
+    .order-info {
+      margin-top: 20px;
+      font-size: 1.2em;
+      text-align: center;
+      color: #ffcccc;
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1>Makssimiks MetroShop</h1>
+    <div class="logo">Makssimiks MetroShop</div>
   </header>
   <nav>
     <a onclick="showSection('shop')">Магазин</a>
@@ -125,13 +143,16 @@
 
   <div id="contact" class="section">
     <h2>Контакты</h2>
-    <p>Телефон: +7 (900) 123-45-67</p>
+    <p>Телефон: +7 (915) 232-99-62</p>
   </div>
 
   <div id="cart" class="section">
     <h2>Корзина</h2>
     <ul id="cart-items"></ul>
     <h3 id="total">Итого: 0 ₽</h3>
+    <div class="order-info">
+      Позвоните по номеру <strong>+7 (915) 232-99-62</strong> и оформите заказ
+    </div>
   </div>
 
   <footer>
