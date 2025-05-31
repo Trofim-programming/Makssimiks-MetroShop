@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Makssimiks MetroShop</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to bottom, #ff0000, #800000);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header, footer {
+      background-color: #000;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #111;
+      padding: 10px;
+    }
+
+    nav a {
+      color: #fff;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+      cursor: pointer;
+    }
+
+    nav a:hover {
+      color: #ff4d4d;
+    }
+
+    .section {
+      display: none;
+      flex: 1;
+      padding: 40px 20px;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .products {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .item {
+      background-color: #111;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      transition: transform 0.3s, box-shadow 0.3s;
+      width: 300px;
+      cursor: pointer;
+      padding: 20px;
+    }
+
+    .item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(255, 77, 77, 0.7);
+    }
+
+    .item-info {
+      text-align: center;
+    }
+
+    .price {
+      margin: 10px 0;
+      font-size: 1.2em;
+      color: #ff4d4d;
+      font-weight: bold;
+    }
+
+    .buy-button {
+      background-color: #ff4d4d;
+      border: none;
+      padding: 10px 20px;
+      color: #fff;
+      font-size: 1em;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 10px;
+    }
+
+    .buy-button:hover {
+      background-color: #e60000;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Makssimiks MetroShop</h1>
+  </header>
+  <nav>
+    <a onclick="showSection('shop')">Магазин</a>
+    <a onclick="showSection('about')">О нас</a>
+    <a onclick="showSection('contact')">Контакты</a>
+    <a onclick="showSection('cart')">Корзина</a>
+  </nav>
+
+  <div id="shop" class="section active">
+    <div class="products" id="product-list"></div>
+  </div>
+
+  <div id="about" class="section">
+    <h2>О нас</h2>
+    <p>Makssimiks MetroShop — твой лучший выбор для снаряжения в PUBG Metro. Качество, стиль и надёжность.</p>
+  </div>
+
+  <div id="contact" class="section">
+    <h2>Контакты</h2>
+    <p>Телефон: +7 (900) 123-45-67</p>
+  </div>
+
+  <div id="cart" class="section">
+    <h2>Корзина</h2>
+    <ul id="cart-items"></ul>
+    <h3 id="total">Итого: 0 ₽</h3>
+  </div>
+
+  <footer>
+    &copy; 2025 Makssimiks MetroShop. Все права защищены.
+  </footer>
+
+  <script>
+    const products = [
+      { id: 1, name: 'МК 14 VK', description: 'Легендарная МК 14 для PUBG Metro, высокая скорострельность и надёжность!', price: '30 ₽' },
+      { id: 2, name: 'Рюкзак (6)', description: 'Большое место для хранения припасов', price: '30 ₽' },
+      { id: 3, name: 'Броня (6)', description: 'Сильная защита и три места для пластин', price: '30 ₽' },
+      { id: 4, name: 'Шлем (6)', description: 'Сильная защита головы и помощь в файте', price: '30 ₽' }
+    ];
+
+    const shop = document.getElementById('product-list');
+
+    products.forEach(product => {
+      const div = document.createElement('div');
+      div.className = 'item';
+      div.innerHTML = `
+        <div class="item-info">
+          <h3>${product.name}</h3>
+          <p>${product.description}</p>
+          <div class="price">${product.price}</div>
+          <button class="buy-button" onclick="addToCart('${product.name}', '${product.price}')">Купить</button>
+        </div>
+      `;
+      shop.appendChild(div);
+    });
+
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      if (id === 'cart') updateCart();
+    }
+
+    function addToCart(name, price) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push({ name, price });
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(name + ' добавлен в корзину!');
+    }
+
+    function updateCart() {
+      const cartItems = document.getElementById('cart-items');
+      const total = document.getElementById('total');
+      cartItems.innerHTML = '';
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      let sum = 0;
+      cart.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item.name + ' - ' + item.price;
+        cartItems.appendChild(li);
+        sum += parseInt(item.price);
+      });
+      total.textContent = 'Итого: ' + sum + ' ₽';
+    }
+  </script>
+</body>
+</html>
